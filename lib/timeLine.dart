@@ -98,14 +98,14 @@ class _DataLoadingState extends State<TimeLine> {
     if(name == "AF") country = 'AFG';
     else if(name == "AU") country = 'AUS';
     else if(name == "BD") country = 'BGD';
-    else if(name == "Brazil") country = 'BRA';
-    else if(name == "Canada") country = 'CAN';
-    else if(name == "China") country = 'CHN';
-    else if(name == "Spain") country = 'ESP';
-    else if(name == "France") country = 'FRA';
-    else if(name == "United Kingdom") country = 'GBR';
-    else if(name == "India") country = 'IND';
-    else if(name == "Nepal") country = 'NPL';
+    else if(name == "BR") country = 'BRA';
+    else if(name == "CA") country = 'CAN';
+    else if(name == "CN") country = 'CHN';
+    else if(name == "ES") country = 'ESP';
+    else if(name == "FR") country = 'FRA';
+    else if(name == "GB") country = 'GBR';
+    else if(name == "IN") country = 'IND';
+    else if(name == "NP") country = 'NPL';
     else if(name == "US") country = 'USA';
     
     return country;
