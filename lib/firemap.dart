@@ -81,6 +81,16 @@ class _DataLoadingState extends State<Map> {
           ),
         );
       }
+      markers.add(
+        Marker(
+            width: 50.0,
+            height: 50.0,
+            point: LatLng(currentAdrs.latitude, currentAdrs.longitude),
+            builder: (ctx) => Container(
+              child: Image.asset('assets/images/location.png'),
+            ),
+          ),
+      );
 
       setState(() {
         //_data = _data;
@@ -251,18 +261,18 @@ class _DataLoadingState extends State<Map> {
                 width: 45,
               ),
               onPressed: () {
-                // getLocation().then(
-                //   (value) {
-                //     var lat = value.latitude, lon = value.longitude;
-                //     setState(
-                //       () {
-                //         currentAdrs = LatLng(lat, lon);
-                //         print('lat -> $lat');
-                //         print(lon);
-                //       },
-                //     );
-                //   },
-                // );
+                getLocation().then(
+                  (value) {
+                    var lat = value.latitude, lon = value.longitude;
+                    setState(
+                      () {
+                        currentAdrs = LatLng(lat, lon);
+                        print('lat -> $lat');
+                        print(lon);
+                      },
+                    );
+                  },
+                );
               },
             ),
           ),
