@@ -19,8 +19,8 @@ class _MyWidgetState extends State<Home> {
   List<Widget> Screen = [
     Map(),
     TimeLine(),
-    Icon(Icons.forum),
-    Icon(Icons.sos),
+    Image.asset('assests/images/forum.png'),
+    Image.asset('assests/images/sos.png'),
     ChatBot(),
   ];
   @override

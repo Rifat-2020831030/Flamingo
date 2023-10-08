@@ -1,4 +1,5 @@
 import 'package:data_vis/bot.dart';
+import 'package:data_vis/timeline3d.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -92,7 +93,7 @@ class _DataLoadingState extends State<Map> {
           ),
       );
 
-      setState(() {
+      setState(() { 
         //_data = _data;
         markers = markers;
         // marker = tempMarker; // Update the marker list with the values
@@ -236,15 +237,10 @@ class _DataLoadingState extends State<Map> {
                 width: 45,
               ),
               onPressed: () {
-                // load("CAN");
-                //print("Chat Bot requested");
-
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) => Distance3d(),
-                //     ));
-
-                //print(_data);
+                Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyHomePage(),
+                      ));
               },
             ),
           ),

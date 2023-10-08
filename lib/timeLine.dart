@@ -2,11 +2,11 @@ import 'package:bottom_picker/bottom_picker.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import 'package:csv/csv.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:bottom_picker/bottom_picker.dart';
 import 'package:bottom_picker/resources/arrays.dart';
 
 class TimeLine extends StatefulWidget {
@@ -21,10 +21,13 @@ class _DataLoadingState extends State<TimeLine> {
   List<Marker> markers = [];
   String country = 'USA', time = '2023-01-01';
 
-
   load(String s1, String s2) async {
     String url =
-        "https://firms.modaps.eosdis.nasa.gov/api/country/csv/e435c561b12fd724d1bd8d6d7462b1aa/VIIRS_SNPP_NRT/"+s1+"/1/"+s2+"/?=e435c561b12fd724d1bd8d6d7462b1aa";
+        "https://firms.modaps.eosdis.nasa.gov/api/country/csv/e435c561b12fd724d1bd8d6d7462b1aa/VIIRS_SNPP_NRT/" +
+            s1 +
+            "/1/" +
+            s2 +
+            "/?=e435c561b12fd724d1bd8d6d7462b1aa";
     var response = await http.get(Uri.parse(url));
     print(response.statusCode);
     //print(response.body);
@@ -32,7 +35,8 @@ class _DataLoadingState extends State<TimeLine> {
       String csv = response.body.toString();
       _data = const CsvToListConverter().convert(csv);
 
-      List<LatLng> tempMarker = []; // Create a temporary list to store LatLng values
+      List<LatLng> tempMarker =
+          []; // Create a temporary list to store LatLng values
 
       double lat = 0;
       double lon = 0;
@@ -65,7 +69,7 @@ class _DataLoadingState extends State<TimeLine> {
       }
 
       setState(() {
-       // _data = _data;
+        // _data = _data;
         markers = markers;
         // marker = tempMarker; // Update the marker list with the values
       });
@@ -73,7 +77,6 @@ class _DataLoadingState extends State<TimeLine> {
       print("data loading failed");
     return "";
   }
-
 
   void BottomPicking(BuildContext context) {
     BottomPicker.date(
@@ -93,21 +96,31 @@ class _DataLoadingState extends State<TimeLine> {
     ).show(context);
   }
 
-  String modify(String name)
-  {
-    if(name == "AF") country = 'AFG';
-    else if(name == "AU") country = 'AUS';
-    else if(name == "BD") country = 'BGD';
-    else if(name == "BR") country = 'BRA';
-    else if(name == "CA") country = 'CAN';
-    else if(name == "CN") country = 'CHN';
-    else if(name == "ES") country = 'ESP';
-    else if(name == "FR") country = 'FRA';
-    else if(name == "GB") country = 'GBR';
-    else if(name == "IN") country = 'IND';
-    else if(name == "NP") country = 'NPL';
-    else if(name == "US") country = 'USA';
-    
+  String modify(String name) {
+    if (name == "AF")
+      country = 'AFG';
+    else if (name == "AU")
+      country = 'AUS';
+    else if (name == "BD")
+      country = 'BGD';
+    else if (name == "BR")
+      country = 'BRA';
+    else if (name == "CA")
+      country = 'CAN';
+    else if (name == "CN")
+      country = 'CHN';
+    else if (name == "ES")
+      country = 'ESP';
+    else if (name == "FR")
+      country = 'FRA';
+    else if (name == "GB")
+      country = 'GBR';
+    else if (name == "IN")
+      country = 'IND';
+    else if (name == "NP")
+      country = 'NPL';
+    else if (name == "US") country = 'USA';
+
     return country;
   }
 
@@ -121,43 +134,45 @@ class _DataLoadingState extends State<TimeLine> {
           centerTitle: true,
           backgroundColor: Color.fromARGB(255, 47, 55, 75),
         ),
-        body: FlutterMap(
-          options: MapOptions(
-            //center: point,
-            center:
-                LatLng(double.parse("22.937620"), double.parse("78.856387")),
-            zoom: 5.0,
-          ),
+        body: Stack(
           children: [
-            TileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName: 'com.example.app',
-            ),
-            Container(
-              width: double.infinity,
-              //alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        BottomPicking(context); // time picking
-                        showCountryPicker(
-                            context: context,
-                            onSelect: (Country value) {
-                              //print(value.countryCode.toString());
-                              country = value.countryCode.toString();
-                              country = modify(country); //country picking
-                              markers.clear();
-                              load(country, time); // load new api marker based on country and time
-                            });
-                      },
-                      child: Text('Pick')),
-                ],
+            FlutterMap(
+              options: MapOptions(
+                //center: point,
+                center:
+                    LatLng(double.parse("22.937620"), double.parse("78.856387")),
+                zoom: 5.0,
               ),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.app',
+                ),
+               
+                MarkerLayer(markers: markers)
+              ],
             ),
-            MarkerLayer(markers: markers)
+             Positioned(
+              bottom: 20.0,
+              left: 100.0,
+               child: ElevatedButton(
+                          onPressed: () {
+                            BottomPicking(context); // time picking
+                            showCountryPicker(
+                              context: context,
+                              onSelect: (Country value) {
+                                //print(value.countryCode.toString());
+                                country = value.countryCode.toString();
+                                country = modify(country); //country picking
+                                markers.clear();
+                                load(country,
+                                    time); // load new api marker based on country and time
+                              },
+                            );
+                          },
+                          child: Text('Pick Date and Country'),
+                        ),
+             ),
           ],
         ));
   }
