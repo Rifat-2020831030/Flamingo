@@ -62,7 +62,7 @@ class _DataLoadingState extends State<TimeLine> {
             height: 50.0,
             point: LatLng(data.latitude, data.longitude),
             builder: (ctx) => Container(
-              child: Image.asset('imagess/wave.gif'),
+              child: Image.asset('assets/images/firefire.gif'),
             ),
           ),
         );
